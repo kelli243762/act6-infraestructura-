@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ../act6-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    environment:
+      - MEALDB_API_URL=https://www.themealdb.com/api/json/v1/1
+    networks:
+      - act6-network
+
+  frontend:
+    build:
+      context: ../act6-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:3002
+    depends_on:
+      - backend
+    networks:
+      - act6-network
+
+networks:
+  act6-network:
+    driver: bridge
